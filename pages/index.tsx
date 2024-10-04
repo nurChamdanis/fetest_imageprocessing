@@ -176,6 +176,24 @@ const Home: React.FC = () => {
           display: inline-block;
           margin: 10px;
         }
+        
+        main{
+          padding: 0;
+          margin: 0;
+        }
+        margin h3{
+        width: 100%;
+        text-align: center;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        }
+        .div_work{
+        display: inline-flex;
+        flex-direction: space-between;
+        width: 100%;
+        }
       `}</style>
 
       <style jsx global>{`
@@ -196,25 +214,14 @@ const Home: React.FC = () => {
             Helvetica Neue,
             sans-serif;
         }
-        * {
-          box-sizing: border-box;
-        }
-        main{
-          padding: 0;
-          margin: 0;
-        }
-        margin h3{
-        width: 100%;
-        text-align: center;
+        p{
         padding-top: 0;
         padding-bottom: 0;
-        margin-top: 0;
-        margin-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
         }
-        .div_work{
-        display: inline-flex;
-        flex-direction: space-between;
-        width: 100%;
+        * {
+          box-sizing: border-box;
         }
       `}</style>
     </div>
