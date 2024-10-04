@@ -107,7 +107,7 @@ const Home: React.FC = () => {
         const imgData = new ImageData(new Uint8ClampedArray(rgbaMat.data), rgbaMat.cols, rgbaMat.rows);
         ctx.putImageData(imgData, 0, 0);
       }
-
+      uploadCanvasImage();
       mat.delete();
       grayMat.delete();
       resizedGrayMat.delete();
@@ -129,6 +129,44 @@ const Home: React.FC = () => {
       }
     };
   }, [cv]);
+
+  const canvasToFile = async (canvas: HTMLCanvasElement, filename: string, type: string): Promise<File> => {
+    const dataUrl = canvas.toDataURL(type);
+    const response = await fetch(dataUrl);
+    const blob = await response.blob();
+    return new File([blob], filename, { type });
+  };
+
+  const uploadCanvasImage = async () => {
+    const canvasElement = canvasRef.current; // Reference to your canvas
+    if (!canvasElement) {
+      console.error('Canvas not found');
+      return;
+    }
+    try {
+      // Convert the canvas to a File
+      const file = await canvasToFile(canvasElement, 'canvas_image.jpg', 'image/jpeg');
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Upload the file to the server
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Upload failed: ${response.statusText}. ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log(data.message); // Handle success message
+
+    } catch (error) {
+      console.error('Error uploading canvas image:', error);
+    }
+  }
 
   const downloadImage = () => {
     const canvasElement = canvasRef.current;
