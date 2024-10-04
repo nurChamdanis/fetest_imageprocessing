@@ -48,19 +48,16 @@ const Home: React.FC = () => {
         } else {
           setError(null);
         }
-
-        // Create object URL and set image source
+ 
         const url = URL.createObjectURL(file);
         const imgElement = imgElementRef.current;
 
         if (imgElement) {
           imgElement.src = url;
-
-          // Clean up the object URL after the image is loaded
-          imgElement.onload = () => {
-            // Process the image once it has been loaded
+ 
+          imgElement.onload = () => { 
             processImage();
-            URL.revokeObjectURL(url); // Release memory after processing
+            URL.revokeObjectURL(url);  
           };
         }
       }
