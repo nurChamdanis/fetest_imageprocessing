@@ -69,26 +69,26 @@ const Home: React.FC = () => {
     const processImage = () => {
       const imgElement = imgElementRef.current;
       if (!cv || !imgElement || !canvasRef.current) return;
-    
+
       const mat = cv.imread(imgElement);
       if (!mat) {
         console.error('Failed to read image.');
         return;
       }
-    
+
       // Convert to grayscale
       const grayMat = new cv.Mat();
       cv.cvtColor(mat, grayMat, cv.COLOR_RGBA2GRAY);
-    
+
       const width = 400;
       const aspectRatio = grayMat.rows / grayMat.cols;
       const height = Math.round(width * aspectRatio);
       const resizedGrayMat = new cv.Mat();
       cv.resize(grayMat, resizedGrayMat, new cv.Size(width, height));
-    
+
       // Create an RGBA matrix
       const rgbaMat = new cv.Mat(resizedGrayMat.rows, resizedGrayMat.cols, cv.CV_8UC4);
-      
+
       // Copy gray values into the RGBA matrix
       for (let i = 0; i < resizedGrayMat.rows; i++) {
         for (let j = 0; j < resizedGrayMat.cols; j++) {
@@ -99,7 +99,7 @@ const Home: React.FC = () => {
           rgbaMat.ucharPtr(i, j)[3] = 255; // A (fully opaque)
         }
       }
-    
+
       const ctx = canvasRef.current.getContext('2d');
       if (ctx) {
         canvasRef.current.width = rgbaMat.cols;
@@ -107,13 +107,13 @@ const Home: React.FC = () => {
         const imgData = new ImageData(new Uint8ClampedArray(rgbaMat.data), rgbaMat.cols, rgbaMat.rows);
         ctx.putImageData(imgData, 0, 0);
       }
-    
+
       mat.delete();
       grayMat.delete();
       resizedGrayMat.delete();
       rgbaMat.delete();
     };
-    
+
 
     const interval = setInterval(() => {
       if (cv) {
@@ -146,9 +146,13 @@ const Home: React.FC = () => {
         <title>FE Test</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <h3>Image Processing</h3>
-        <h6>using OpenCV</h6>
+      <main 
+  style={{ height: '100%', width: '100%', padding: '20px', boxSizing: 'border-box' }} // Added padding for mobile
+>
+        <h3 className='h3Title1'
+        >Image Processing</h3>
+        <h6  
+        >using OpenCV</h6>
         <p id="status">OpenCV.js is loading...</p>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <div>
@@ -172,29 +176,45 @@ const Home: React.FC = () => {
       <footer></footer>
 
       <style jsx>{`
-        .inputoutput {
-          display: inline-block;
-          margin: 10px;
-        }
-        
-        main{
-          padding: 0;
-          margin: 0;
-        }
-        margin h3{
-        width: 100%;
-        text-align: center;
-        padding-top: 0;
-        padding-bottom: 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        }
-        .div_work{
-        display: inline-flex;
-        flex-direction: space-between;
-        width: 100%;
-        }
-      `}</style>
+  .inputoutput {
+    display: inline-block;
+    margin: 10px;
+  }
+
+  .div_work {
+    display: flex;
+    flex-direction: column; /* Stack on small screens */
+    align-items: center; /* Center items horizontally */
+    width: 100%;
+  }
+
+  /* Styles for larger screens */
+  @media (min-width: 600px) {
+    .div_work {
+      flex-direction: row; /* Side by side on larger screens */
+      justify-content: space-between;
+    }
+  }
+
+  h3 {
+    font-size: 24px;
+    text-align: center; /* Center text */
+  }
+
+  h6 {
+    text-align: center;
+  }
+
+  img {
+    max-width: 100%; /* Responsive image */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  canvas {
+    max-width: 100%; /* Responsive canvas */
+    height: auto; /* Maintain aspect ratio */
+  }
+`}</style>
 
       <style jsx global>{`
         html,
