@@ -187,16 +187,16 @@ const Home: React.FC = () => {
       <main 
   style={{ height: '100%', width: '100%', padding: '20px', boxSizing: 'border-box' }} // Added padding for mobile
 >
-        <h3 className='h3Title1'
+        <h3 style={{padding: '0', margin: '0'}}
         >Image Processing</h3>
-        <h6  
+        <h6 style={{ padding: '0', margin: '0' }}  
         >using OpenCV</h6>
-        <p id="status">OpenCV.js is loading...</p>
+        <p id="status" style={{ padding: '0', margin: '0' }} >OpenCV.js is loading...</p>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <div>
-          <p>Please follow these instructions:</p>
-          <p>1. Upload your file image using only png/jpeg/jpg</p>
-          <p>2. The image must not exceed 2MB.</p>
+          <p style={{ padding: '0', margin: '0' }}>Please follow these instructions:</p>
+          <p style={{ padding: '0', margin: '0' }} >1. Upload your file image using only png/jpeg/jpg</p>
+          <p style={{ padding: '0', margin: '0' }} >2. The image must not exceed 2MB.</p>
           <input type="file" ref={inputElementRef} accept="image/png, image/jpeg" />
         </div>
         <div className='div_work'>
